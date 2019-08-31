@@ -3,6 +3,7 @@ ruby '2.6.3'
 
 gem 'sinatra', '~> 1.4.7'
 gem 'slack-ruby-client'
+gem 'redis'
 
 group :development do
   gem 'dotenv'

@@ -2,11 +2,12 @@ class Yangbot
   def self.process(event_data)
     # just for debugging
     puts JSON.pretty_generate(event_data)
+    return unless $redis.get("chatbot-enabled")
 
     case event_data['type']
     when 'team_join'
       # https://api.slack.com/events/team_join
-      # team_join(event_data)
+      team_join(event_data)
     when 'message'
       # https://api.slack.com/events/message.im
       return if bot_message?(event_data)
@@ -35,24 +36,13 @@ class Yangbot
     end
   end
 
-  # Event handler for when a user joins a team
-  def self.team_join(event_data)
-    message = ":yangcheer: Welcome to the California Yang Gang Regional Slack Workspace! :yangcheer:
-      \n
-      Before you do anything, head on over to <#CLQKM7YRK|0-all-start-here> and read the workspace rules. Adhering to these rules is how we maintain order and organize effectively for Yang.
-      \n
-      What sets this workspace apart from others that you may be part of is that we hold ourselves to a higher standard and actively encourage participation from our fellow California volunteers. Andrew Yang isn’t going to win this election on his own. He needs our help, and we are going to deliver.
-      \n
-      As a member of this community, please commit a minimum of 30 minutes to phone banking this week. If you haven’t done any phone banking yet, it’s a lot easier than you think. We are trying to hit some aggressive phone banking goals that will be a LOT easier if more people are involved. Just visit <#CM233G27K|7-phone-banking> to get started.
-      \n
-      If you have any questions, please head over to <#CLSU38W3V|7-volunteer-support>."
-
-
-      user_id = event_data["user"]["id"]
+  def self.im_bot(event_data)
+    message = "Sorry, I'm just a simple bot for now."
+    user_id = event_data["user"]["id"]
     direct_message(user_id, message)
   end
 
-  def self.im_bot(event_data)
+  def self.team_join(event_data)
     blocks = [
       {
         "type": "section",
@@ -92,7 +82,6 @@ class Yangbot
     ]
     user_id = event_data['user']
     direct_message_blocks(user_id, blocks)
-
   end
 
 

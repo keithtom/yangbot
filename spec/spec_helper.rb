@@ -3,6 +3,7 @@ require 'rspec'
 
 ENV['RACK_ENV'] = 'test'
 
+require_relative "../config/environment"
 require File.expand_path '../../app/api.rb', __FILE__
 
 module RSpecMixin

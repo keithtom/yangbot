@@ -1,3 +1,4 @@
+require './config/environment'
 require './app/auth'
 require './app/yangbot'
 require './app/api'
